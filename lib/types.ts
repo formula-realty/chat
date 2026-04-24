@@ -17,7 +17,7 @@ export type AnswerField =
   | "name"
   | "phone";
 
-export type InputType = "text" | "name" | "phone";
+export type InputType = "text" | "phone";
 
 export type LeadAnswers = Record<AnswerField, string>;
 
@@ -39,7 +39,6 @@ export type ChatStepConfig = {
   question: string;
   quickReplies?: string[];
   inputType: InputType;
-  acceptsFreeText?: boolean;
 };
 
 export type SessionMetadata = {
@@ -59,9 +58,4 @@ export type SessionMetadata = {
 export type LeadPayload = {
   answers: LeadAnswers;
   metadata: SessionMetadata;
-};
-
-export type ChatAssistResponse = {
-  reply: string;
-  nextStep: ChatStepId;
 };
