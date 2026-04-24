@@ -70,15 +70,3 @@ export const leadRequestSchema = z.object({
   website: z.string().max(300).optional(),
   startedAt: z.number().finite()
 });
-
-export const chatRequestSchema = z.object({
-  currentStep: z.enum([
-    "need",
-    "purchase",
-    "budget",
-    "contact",
-    "phone"
-  ]),
-  message: z.string().trim().min(1).max(700),
-  answers: z.record(z.string()).optional()
-});
