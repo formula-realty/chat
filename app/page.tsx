@@ -3,8 +3,8 @@ import { ChatShell } from "@/components/chat/ChatShell";
 export default function HomePage() {
   return (
     <main className="h-svh overflow-hidden bg-formula-soft text-formula-ink">
-      <section className="mx-auto flex h-full w-full max-w-7xl flex-col px-3 py-3 sm:px-5 lg:px-7">
-        <header className="flex shrink-0 items-center justify-between gap-3 rounded-full border border-formula-line bg-white px-3 py-2 shadow-sm sm:px-4">
+      <section className="mx-auto flex h-full w-full max-w-7xl flex-col p-0 lg:px-7 lg:py-3">
+        <header className="hidden shrink-0 items-center justify-between gap-3 rounded-full border border-formula-line bg-white px-3 py-2 shadow-sm sm:px-4 lg:flex">
           <a href="#chat" className="flex items-center gap-3" aria-label="Формула">
             <span className="flex h-9 w-9 items-center justify-center sm:h-10 sm:w-10">
               <img
@@ -34,8 +34,8 @@ export default function HomePage() {
           </span>
         </header>
 
-        <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-3 pt-3 lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-none lg:gap-5">
-          <section className="relative overflow-hidden rounded-[28px] border border-formula-line bg-white p-4 shadow-soft sm:p-5 lg:flex lg:min-h-0 lg:flex-col lg:justify-between lg:p-7">
+        <div className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] lg:grid-cols-[0.86fr_1.14fr] lg:grid-rows-none lg:gap-5 lg:pt-3">
+          <section className="relative hidden overflow-hidden rounded-[28px] border border-formula-line bg-white p-4 shadow-soft sm:p-5 lg:flex lg:min-h-0 lg:flex-col lg:justify-between lg:p-7">
             <div>
               <div className="inline-flex rounded-full bg-formula-soft px-3 py-1.5 text-xs font-semibold text-formula-ink sm:text-sm">
                 Подбор недвижимости быстро и для всех
