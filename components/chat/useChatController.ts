@@ -6,25 +6,17 @@ import {
   FIRST_STEP_ID,
   START_MESSAGES,
   getNextStepId,
-  getStep,
-  getStepQuestion
+  getStep
 } from "@/lib/chat-flow";
 import { captureSessionMetadata } from "@/lib/utm";
 import type {
-  ChatAssistResponse,
   ChatMessage,
   ChatStepId,
   CollectedAnswers,
-  FunnelStepId,
   LeadAnswers,
   SessionMetadata
 } from "@/lib/types";
-import {
-  leadAnswersSchema,
-  nameSchema,
-  normalizePhone,
-  phoneSchema
-} from "@/lib/validation";
+import { leadAnswersSchema, phoneSchema } from "@/lib/validation";
 
 const BOT_DELAY_MS = 520;
 
@@ -80,11 +72,7 @@ export function useChatController() {
       return "+7 (___) ___-__-__";
     }
 
-    if (activeStep.inputType === "name") {
-      return "Введите имя";
-    }
-
-    return "Напишите ответ";
+    return "";
   }, [activeStep]);
 
   const pushBotMessage = useCallback(
@@ -160,62 +148,6 @@ export function useChatController() {
     });
   }
 
-  async function askAiAndContinue(
-    current: FunnelStepId,
-    userMessage: string,
-    nextAnswers: CollectedAnswers
-  ) {
-    const fallbackNextStep = getNextStepId(current);
-    const fallbackReply = `Понял, учту это. ${getStepQuestion(fallbackNextStep)}`;
-
-    setIsTyping(true);
-
-    try {
-      const response = await fetch("/api/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          currentStep: current,
-          message: userMessage,
-          answers: nextAnswers
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Chat route failed");
-      }
-
-      const data = (await response.json()) as ChatAssistResponse;
-      const nextStep = data.nextStep === "done" ? fallbackNextStep : data.nextStep;
-      const nextConfig = nextStep === "done" ? null : getStep(nextStep);
-
-      setCurrentStep(nextStep);
-      setMessages((currentMessages) => [
-        ...currentMessages,
-        createMessage("bot", data.reply, {
-          step: nextConfig?.id,
-          quickReplies: nextConfig?.quickReplies,
-          inputType: nextConfig?.inputType
-        })
-      ]);
-    } catch {
-      const nextConfig = fallbackNextStep === "done" ? null : getStep(fallbackNextStep);
-      setCurrentStep(fallbackNextStep);
-      setMessages((currentMessages) => [
-        ...currentMessages,
-        createMessage("bot", fallbackReply, {
-          step: nextConfig?.id,
-          quickReplies: nextConfig?.quickReplies,
-          inputType: nextConfig?.inputType
-        })
-      ]);
-    } finally {
-      setIsTyping(false);
-    }
-  }
-
   async function submitLead(nextAnswers: CollectedAnswers) {
     const parsed = leadAnswersSchema.safeParse({
       name: "Не указано",
@@ -262,7 +194,7 @@ export function useChatController() {
     }
   }
 
-  async function handleAnswer(rawValue: string, source: "quick" | "typed") {
+  async function handleAnswer(rawValue: string) {
     if (!activeStep || isTyping || isSubmitting) {
       return;
     }
@@ -270,24 +202,12 @@ export function useChatController() {
     const trimmed = rawValue.trim();
 
     if (!trimmed) {
-      setError("Напишите ответ или выберите вариант.");
+      setError("Выберите вариант ответа.");
       return;
     }
 
     let valueForDisplay = trimmed;
     let valueForStorage = trimmed;
-
-    if (activeStep.inputType === "name") {
-      const parsed = nameSchema.safeParse(trimmed);
-
-      if (!parsed.success) {
-        setError(parsed.error.issues[0]?.message || "Введите имя.");
-        return;
-      }
-
-      valueForDisplay = parsed.data;
-      valueForStorage = parsed.data;
-    }
 
     if (activeStep.inputType === "phone") {
       const parsed = phoneSchema.safeParse(trimmed);
@@ -299,6 +219,9 @@ export function useChatController() {
 
       valueForStorage = parsed.data;
       valueForDisplay = trimmed;
+    } else if (!activeStep.quickReplies?.includes(trimmed)) {
+      setError("Выберите вариант ответа.");
+      return;
     }
 
     const nextAnswers: CollectedAnswers = {
@@ -321,12 +244,7 @@ export function useChatController() {
 
     const nextStep = getNextStepId(activeStep.id);
 
-    if (activeStep.inputType === "name" || source === "quick") {
-      await askStep(nextStep);
-      return;
-    }
-
-    await askAiAndContinue(activeStep.id, trimmed, nextAnswers);
+    await askStep(nextStep);
   }
 
   return {
@@ -343,8 +261,8 @@ export function useChatController() {
     website,
     setWebsite,
     placeholder,
-    handleQuickReply: (reply: string) => void handleAnswer(reply, "quick"),
-    handleSubmit: () => void handleAnswer(inputValue, "typed"),
+    handleQuickReply: (reply: string) => void handleAnswer(reply),
+    handleSubmit: () => void handleAnswer(inputValue),
     restart: () => void startConversation(),
     normalizedAnswers: answers as Partial<LeadAnswers>
   };
