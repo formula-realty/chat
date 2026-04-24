@@ -39,7 +39,7 @@ export function ChatShell() {
   return (
     <section
       id="chat"
-      className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-[28px] border border-formula-line bg-white shadow-chat"
+      className="flex h-full min-h-0 w-full flex-col overflow-hidden rounded-none border-0 bg-white shadow-none lg:rounded-[28px] lg:border lg:border-formula-line lg:shadow-chat"
       aria-label="Чат подбора квартиры"
     >
       <div className="flex shrink-0 items-center justify-between bg-formula-ink px-4 py-3 text-white sm:px-5">
