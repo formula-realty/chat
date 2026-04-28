@@ -5,23 +5,15 @@ function line(label: string, value?: string): string {
 }
 
 export function formatLeadForBitrixComments({
-  answers,
-  metadata
+  answers
 }: LeadPayload): string {
   return [
     'Новая заявка с чат-лендинга "Формула"',
     "",
-    line("Имя", answers.name),
     line("Планировка", answers.need),
     line("Способ покупки", answers.purchaseMethod),
     line("Бюджет", answers.budget),
-    line("Куда направить", answers.contactMethod),
-    "",
-    "Дополнительно:",
-    line("referrer", metadata.referrer),
-    line("path", metadata.path),
-    line("timestamp", metadata.timestamp),
-    line("user agent", metadata.userAgent)
+    line("Куда направить", answers.contactMethod)
   ].join("\n");
 }
 
