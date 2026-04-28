@@ -30,6 +30,7 @@ function buildLeadFields(payload: LeadPayload): BitrixLeadFields {
   const assignedById = process.env.BITRIX_ASSIGNED_BY_ID?.trim();
   const fields: BitrixLeadFields = {
     TITLE: "Заявка с чат-лендинга Формула",
+    STATUS_ID: "NEW",
     NAME: "Клиент",
     PHONE: [
       {
