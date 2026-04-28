@@ -25,12 +25,8 @@ export function isValidRussianPhone(value: string): boolean {
 export const nameSchema = z
   .string()
   .trim()
-  .min(2, "Введите имя")
-  .max(80, "Имя слишком длинное")
-  .refine(
-    (value) => /^[А-Яа-яЁёA-Za-z\s-]+$/.test(value),
-    "Введите имя без цифр и спецсимволов"
-  );
+  .min(1, "Введите имя")
+  .max(80, "Имя слишком длинное");
 
 export const phoneSchema = z
   .string()
