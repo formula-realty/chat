@@ -177,7 +177,11 @@ export function useChatController() {
       });
 
       if (!response.ok) {
-        throw new Error("Lead route failed");
+        const data = (await response.json().catch(() => null)) as
+          | { error?: string }
+          | null;
+
+        throw new Error(data?.error || "Не удалось отправить заявку.");
       }
 
       setCurrentStep("done");
@@ -186,8 +190,12 @@ export function useChatController() {
         ...currentMessages,
         createMessage("bot", "Готово. Заявка отправлена.")
       ]);
-    } catch {
-      setError("Не получилось отправить заявку. Проверьте номер и попробуйте еще раз.");
+    } catch (error) {
+      setError(
+        error instanceof Error
+          ? error.message
+          : "Не получилось отправить заявку. Попробуйте еще раз."
+      );
     } finally {
       setIsTyping(false);
       setIsSubmitting(false);
