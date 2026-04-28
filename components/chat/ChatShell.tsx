@@ -8,7 +8,6 @@ import { QuickReplies } from "@/components/chat/QuickReplies";
 import { ThankYouPanel } from "@/components/chat/ThankYouPanel";
 import { TypingIndicator } from "@/components/chat/TypingIndicator";
 import { useChatController } from "@/components/chat/useChatController";
-import { assistantAvatar } from "@/lib/assistant-avatar";
 
 export function ChatShell() {
   const bottomRef = useRef<HTMLDivElement | null>(null);
@@ -47,7 +46,7 @@ export function ChatShell() {
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white sm:h-11 sm:w-11">
             <img
-              src={assistantAvatar}
+              src="/arseniy-popov.svg"
               alt="Арсений Попов"
               className="h-full w-full object-cover"
             />
