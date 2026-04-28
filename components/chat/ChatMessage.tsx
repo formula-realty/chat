@@ -43,7 +43,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
     <div className="flex items-end gap-2">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-formula-line bg-white">
         <img
-          src="/arseniy-popov.svg"
+          src="/arseniy-popov.jpg"
           alt="Арсений Попов"
           className="h-full w-full object-cover"
         />

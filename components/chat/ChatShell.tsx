@@ -46,7 +46,7 @@ export function ChatShell() {
         <div className="flex items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white sm:h-11 sm:w-11">
             <img
-              src="/arseniy-popov.svg"
+              src="/arseniy-popov.jpg"
               alt="Арсений Попов"
               className="h-full w-full object-cover"
             />
