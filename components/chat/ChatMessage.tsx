@@ -1,5 +1,6 @@
 import clsx from "clsx";
 
+import { assistantAvatar } from "@/lib/assistant-avatar";
 import type { ChatMessage as ChatMessageType } from "@/lib/types";
 
 type ChatMessageProps = {
@@ -43,7 +44,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
     <div className="flex items-end gap-2">
       <span className="flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full border border-formula-line bg-white">
         <img
-          src="/arseniy-popov.jpg"
+          src={assistantAvatar}
           alt="Арсений Попов"
           className="h-full w-full object-cover"
         />
