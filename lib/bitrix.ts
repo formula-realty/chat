@@ -28,9 +28,9 @@ function getBitrixEndpoint(): string {
 function buildLeadFields(payload: LeadPayload): BitrixLeadFields {
   const { answers } = payload;
   const assignedById = process.env.BITRIX_ASSIGNED_BY_ID?.trim();
+  const leadStatusId = process.env.BITRIX_LEAD_STATUS_ID?.trim();
   const fields: BitrixLeadFields = {
     TITLE: "Заявка с чат-лендинга Формула",
-    STATUS_ID: "NEW",
     NAME: "Клиент",
     PHONE: [
       {
@@ -45,6 +45,10 @@ function buildLeadFields(payload: LeadPayload): BitrixLeadFields {
     UTM_MEDIUM: "chat",
     UTM_CAMPAIGN: "frml"
   };
+
+  if (leadStatusId) {
+    fields.STATUS_ID = leadStatusId;
+  }
 
   if (assignedById) {
     fields.ASSIGNED_BY_ID = Number(assignedById);
