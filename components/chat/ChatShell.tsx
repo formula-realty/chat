@@ -44,19 +44,18 @@ export function ChatShell() {
     >
       <div className="flex shrink-0 items-center justify-between bg-formula-ink px-4 py-3 text-white sm:px-5">
         <div className="flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white sm:h-10 sm:w-10">
+          <span className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-white/20 bg-white sm:h-11 sm:w-11">
             <img
-              src="/formula-mark.svg"
-              alt=""
-              aria-hidden="true"
-              className="h-6 w-auto sm:h-7"
+              src="/arseniy-popov.jpg"
+              alt="Арсений Попов"
+              className="h-full w-full object-cover"
             />
           </span>
           <div>
-            <p className="text-sm font-semibold">
-              Ассистент Формулы
+            <p className="text-sm font-semibold">Арсений Попов</p>
+            <p className="text-xs text-white/65">
+              эксперт по подбору квартир в Тюмени
             </p>
-            <p className="text-xs text-white/65">онлайн-подбор в Тюмени</p>
           </div>
         </div>
         <span className="rounded-full border border-white/18 bg-white/10 px-3 py-1 text-xs font-medium text-white">
@@ -70,9 +69,7 @@ export function ChatShell() {
             <ChatMessage key={message.id} message={message} />
           ))}
           {isTyping ? <TypingIndicator /> : null}
-          {submitted ? (
-            <ThankYouPanel onRestart={restart} />
-          ) : null}
+          {submitted ? <ThankYouPanel onRestart={restart} /> : null}
           <div ref={bottomRef} />
         </div>
       </div>
